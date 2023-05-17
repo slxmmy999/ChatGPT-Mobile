@@ -6,7 +6,7 @@ import base64
 from sms_api import send_message
 from bs4 import BeautifulSoup
 from gpt3_api import getOutput
-from api_keys import phoneNumber
+from api_keys import phoneNumber, carrier
 
 # Set up OAuth2 credentials flow
 # You must obtain the proper credentials from the Google Developer Portal
@@ -30,7 +30,7 @@ def handle_new_message(message):
     # Extract the message content
     sender = extract_sender(full_message)
 
-    if sender == "4048250088@mms.att.net":
+    if sender == phoneNumber + carrier:
         message_content = extract_message_content(full_message)
 
         # Process the new message (e.g., print message content)
