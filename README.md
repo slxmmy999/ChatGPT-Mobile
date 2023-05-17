@@ -11,3 +11,6 @@ This README will guide you through the setup and usage of the ChatGPT-Mobile pro
 
 <img src="https://github.com/slxmmy999/ChatGPT-Mobile/assets/62761327/60a815a0-2334-44ce-a8b0-8043b7f9ccf8" alt="Image" width="300">
 
+## Contributions
+
+I am open to all collaborators and ANY contributions are welcome, whether it's knowledge, hardware, or code. Please feel free to send me a message on any platform with whatever proposal you may have and I will get back to you as soon as possible.
