@@ -6,7 +6,11 @@ import base64
 from sms_api import send_message
 from bs4 import BeautifulSoup
 from gpt3_api import getOutput
-from api_keys import phoneNumber, carrier
+from setup import phoneNumber, carrier
+from log import AppLogger
+
+logger = AppLogger()
+logger.GMAIL_LOG_EVENT("NEW RUN STARTED", "info")
 
 # Set up OAuth2 credentials flow
 # You must obtain the proper credentials from the Google Developer Portal
@@ -18,6 +22,7 @@ flow = InstalledAppFlow.from_client_secrets_file(
 
 # Perform OAuth2 authorization
 credentials = flow.run_local_server()
+logger.GMAIL_LOG_EVENT("Auth server completed", "info")
 service = build('gmail', 'v1', credentials=credentials)
 
 def handle_new_message(message):
@@ -36,7 +41,7 @@ def handle_new_message(message):
         # Process the new message (e.g., print message content)
         response = getOutput(message_content)
         send_message(phoneNumber, response)
-        mark_message_as_read(message_id)
+    mark_message_as_read(message_id)
 
 def mark_message_as_read(message_id):
     service.users().messages().modify(
@@ -52,7 +57,7 @@ def extract_sender(message):
     for header in headers:
         if header['name'] == 'From':
             return header['value']
-
+    logger.GMAIL_LOG_EVENT("Could not find sender", "warning")
     return ''
 
 def extract_message_content(message):
@@ -76,12 +81,13 @@ def extract_message_content(message):
         if td_tag:
             content = td_tag.get_text(strip=True)
         else:
-            print("No <td> tag found.")
+            logger.GMAIL_LOG_EVENT("Could not find <td> tag", "error")
         return content
-
+    logger.GMAIL_LOG_EVENT("Could not find message content", "warning")
     return ''
 
 def poll_new_messages():
+    logger.GMAIL_LOG_EVENT("POLLING FOR MESSAGES", "info")
     while True:
         # Poll for new messages
         try:
@@ -94,12 +100,12 @@ def poll_new_messages():
 
             # Process the new message event
             if unread_messages:
+                logger.GMAIL_LOG_EVENT("New message recieved, extracting content", "info")
                 # Handle new message(s) as needed
-                for message in unread_messages:
-                    handle_new_message(message)
+                handle_new_message(unread_messages[0])
         except Exception as e:
             # Handling the exception
-            print(f"An exception occurred: {e}")
+            logger.GMAIL_LOG_EVENT(f"Exception: {e}", "error")
 
         # Wait for a specific interval before polling again
         time.sleep(1)  # Adjust the interval as needed
