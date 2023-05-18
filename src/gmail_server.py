@@ -3,13 +3,14 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 import time
 import base64
-from sms_api import send_message
+from sms_api import MessageService
 from bs4 import BeautifulSoup
 from gpt3_api import getOutput
 from setup import phoneNumber, carrier
 from log import AppLogger
 
 logger = AppLogger()
+ms = MessageService()
 logger.GMAIL_LOG_EVENT("NEW RUN STARTED", "info")
 
 # Set up OAuth2 credentials flow
@@ -40,7 +41,7 @@ def handle_new_message(message):
 
         # Process the new message (e.g., print message content)
         response = getOutput(message_content)
-        send_message(phoneNumber, response)
+        ms.send_message(phoneNumber, response)
     mark_message_as_read(message_id)
 
 def mark_message_as_read(message_id):
