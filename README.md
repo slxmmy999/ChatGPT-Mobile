@@ -13,28 +13,52 @@ This README will guide you through the setup and usage of the ChatGPT-Mobile pro
 
 ## Setup
 
-1. Clone the repository:
+1. **Clone the repository:**
 ```
 git clone https://github.com/slxmmy999/ChatGPT-Mobile.git
 ```
 
-2. Install the required Python dependencies. Open a terminal or command prompt, navigate to the project directory, and run the following command:
+2. **Install the required Python dependencies. Open a terminal or command prompt, navigate to the project directory, and run the following command:**
 ```
 pip install -r requirements.txt
 ```
 
-3. Acquire Gmail OAuth `credentials.json` file from the Google Cloud Console and place the file in the root folder of the repository.
+3. **Acquire Gmail OAuth `credentials.json` file from the Google Cloud Console and place the file in the root folder of the repository. Please follow the steps below to obtain the credentials.**
+    - Go to the Google Cloud Console.
+    - Create a new project or select an existing project.
+    - Enable the Gmail API for your project.
+    - Go to the Credentials page and click on Create Credentials.
+    - Select OAuth client ID as the credential type.
+    - Configure the OAuth consent screen.
+    - Select Other as the application type.
+    - Download the credentials.json file.
+    - Place the credentials.json file in the root folder of the cloned repository.
 
-4. Create an application specific password for Gmail and use it to define the variable `gmail_password` in `setup.py`
+4. **Create an application specific password for Gmail and use it to define the variable `gmail_password` in `setup.py`. Please follow the steps below to create an application-specific password:**
+    - Go to your Gmail account settings.
+    - Navigate to the Security tab.
+    - Enable 2-Step Verification if not already enabled.
+    - Go to the App Passwords section.
+    - Select Mail and Other (Custom Name).
+    - Click on Generate.
+    - Copy the generated application-specific password.
+    - Define the gmail_password variable in setup.py with the copied password.
+    - (More details about application specific passwords can be found [here](https://support.google.com/mail/answer/185833?hl=en).)
 
-5. Define the rest of the variables in `setup.py`
+5. **Define the rest of the variables in `setup.py`.**
+    - Set up an OpenAI account
+    - Acquire a secret from your OpenAI account
+    - Set an email
+    - Set a phone number
+    - Set a carrier
+    - (More details about setting up an OpenAI account and acquiring the secret can be found [here](https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key).)
 
-6. Run:
+6. **Run:**
 ```
 python src/gmail_server.py
 ```
 
-7. Send an MMS message to the email being used for this application. Functionality is currently very slow so it may take a while to recieve a response.
+7. **Send an MMS message to the email being used for this application. Functionality is currently very slow so it may take a while to recieve a response.**
 
 ## Contributions
 
