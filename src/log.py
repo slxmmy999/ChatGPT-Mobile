@@ -2,6 +2,8 @@ import logging
 from logging.handlers import RotatingFileHandler
 from setup import verbose
 
+# TODO: Implement functionality to limit logfile size
+
 class AppLogger:
     def __init__(self):
         self.logfile = "app.log"

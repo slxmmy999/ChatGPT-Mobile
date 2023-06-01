@@ -36,6 +36,7 @@ def handle_new_message(message):
     # Extract the message content
     sender = extract_sender(full_message)
 
+    # Only respond to emails from the known sender
     if sender == phoneNumber + carrier:
         message_content = extract_message_content(full_message)
 
@@ -44,6 +45,7 @@ def handle_new_message(message):
         ms.send_message(phoneNumber, response)
     mark_message_as_read(message_id)
 
+# Mark message as read so they are not responded to more than once
 def mark_message_as_read(message_id):
     service.users().messages().modify(
         userId='me',
@@ -61,6 +63,9 @@ def extract_sender(message):
     logger.GMAIL_LOG_EVENT("Could not find sender", "warning")
     return ''
 
+
+# TODO: This code assumes all carriers send the data in the same way. This must be tested with
+# each carrier. This method is working with AT&T but has not been tested with other carriers.
 def extract_message_content(message):
     payload = message.get('payload')
     parts = payload.get('parts')
