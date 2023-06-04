@@ -9,7 +9,7 @@ openai.api_key = openai_apikey
 
 # Array of message history passed to model each time a response is requested
 messages = [
-    {"role": "system", "content": "You are a helpful assistant. Users are interacting with you using their mobile messaging app. Please make sure your responses are mobile-friendly and only in plain text. You are based on ChatGPT using the gpt-3.5-turbo model."}
+    {"role": "system", "content": "You are a helpful assistant. Users are interacting with you using their mobile messaging app. Please make sure your responses are short and concise, mobile-friendly, and only in plain text. You are based on ChatGPT using the gpt-3.5-turbo model."}
 ]
 
 # Model can be changed based on price and performance preferences, though 3.5-turbo is a very
@@ -25,6 +25,7 @@ def getOutput(input):
         response = openai.ChatCompletion.create(
             model=model,
             messages=messages
+           # max_tokens=300
         )
 
         # This makes sure the list of past messages is not too long and causing issues.

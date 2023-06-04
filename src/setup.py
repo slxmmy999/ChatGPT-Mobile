@@ -21,7 +21,7 @@ CARRIERS = {
 }
 
 # Input the key from the dictionary above that responds to you carrier.
-carrier = CARRIERS["<your-carrier>"]
+carrier = CARRIERS["<your_carrier>"]
 
 
 # Whether logging is enabled or not
