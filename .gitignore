@@ -2,3 +2,4 @@ __pycache__
 setup.txt
 credentials.json
 app.log
+.env

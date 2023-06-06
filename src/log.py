@@ -1,11 +1,10 @@
 import logging
 from logging.handlers import RotatingFileHandler
-from setup import verbose
 
 # TODO: Implement functionality to limit logfile size
 
 class AppLogger:
-    def __init__(self):
+    def __init__(self, verbose: bool = True):
         self.logfile = "app.log"
 
         logging.basicConfig(filename=self.logfile, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -13,9 +12,10 @@ class AppLogger:
         self.smsLogger = logging.getLogger("SMS")
         self.gptLogger = logging.getLogger("GPT")
         self.gmailLogger = logging.getLogger("MAIL")
+        self.verbose = verbose
 
     def SMS_LOG_EVENT(self, message: str, type: str):
-        if not verbose: return
+        if not self.verbose: return
         match type.lower():
             case "info":
                 self.smsLogger.info(message)
@@ -27,7 +27,7 @@ class AppLogger:
                 self.smsLogger.warning(message)
 
     def GPT_LOG_EVENT(self, message: str, type: str):
-        if not verbose: return
+        if not self.verbose: return
         match type.lower():
             case "info":
                 self.gptLogger.info(message)
@@ -39,7 +39,7 @@ class AppLogger:
                 self.gptLogger.warning(message)
 
     def GMAIL_LOG_EVENT(self, message: str, type: str):
-        if not verbose: return
+        if not self.verbose: return
         match type.lower():
             case "info":
                 self.gmailLogger.info(message)
