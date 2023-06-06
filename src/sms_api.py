@@ -16,8 +16,11 @@ class MessageService:
         self.server.login(auth[0], auth[1])
     
     def send_message(self, phone_number, message):
-        self.logger.SMS_LOG_EVENT("Preparing to send SMS", "info")
-        recipient = phone_number + self.carrier
-    
-        self.server.sendmail(self.EMAIL, recipient, message)
-        self.logger.SMS_LOG_EVENT("SMS sent", "info")
+        try:
+            self.logger.SMS_LOG_EVENT("Preparing to send SMS", "info")
+            recipient = phone_number + self.carrier
+        
+            self.server.sendmail(self.EMAIL, recipient, message)
+            self.logger.SMS_LOG_EVENT("SMS sent", "info")
+        except Exception as e:
+            self.logger.SMS_LOG_EVENT(f"SMS failed to send: {e}", "error")
