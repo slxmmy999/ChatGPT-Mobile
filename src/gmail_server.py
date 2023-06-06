@@ -8,6 +8,10 @@ from bs4 import BeautifulSoup
 from gpt3_api import getOutput
 from dotenv import dotenv_values
 from log import AppLogger
+import os
+
+if not os.path.exists(".env"):
+    raise FileNotFoundError("No .env file found. Please create one by running the `setup.py` file.")
 
 CARRIERS = {
     "att": "@mms.att.net",

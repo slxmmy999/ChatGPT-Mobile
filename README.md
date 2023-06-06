@@ -34,7 +34,8 @@ pip install -r requirements.txt
     - Download the credentials.json file.
     - Place the credentials.json file in the root folder of the cloned repository.
 
-4. **Create an application specific password for Gmail and use it to define the variable `gmail_password` in `setup.py`. Please follow the steps below to create an application-specific password:**
+4. **Create an application specific password for Gmail. Please follow the steps below to create an application-specific password:**
+It is recommended that you create a seperate Google account for this as it can cause clutter in a primary Gmail account
     - Go to your Gmail account settings.
     - Navigate to the Security tab.
     - Enable 2-Step Verification if not already enabled.
@@ -45,10 +46,11 @@ pip install -r requirements.txt
     - Define the gmail_password variable in setup.py with the copied password.
     - (More details about application specific passwords can be found [here](https://support.google.com/mail/answer/185833?hl=en).)
 
-5. **Define the rest of the variables in `setup.py`.**
+5. **Run `setup.py` to create the `.env` file containing config data:**
     - Set up an OpenAI account
     - Acquire a secret from your OpenAI account
     - Set an email
+    - Set Gmail app specific password (acquired in last step)
     - Set a phone number
     - Set a carrier
     - (More details about setting up an OpenAI account and acquiring the secret can be found [here](https://www.windowscentral.com/software-apps/how-to-get-an-openai-api-key).)
