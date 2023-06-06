@@ -6,11 +6,29 @@ import base64
 from sms_api import MessageService
 from bs4 import BeautifulSoup
 from gpt3_api import getOutput
-from setup import phoneNumber, carrier
+from dotenv import dotenv_values
 from log import AppLogger
+import os
+
+if not os.path.exists(".env"):
+    raise FileNotFoundError("No .env file found. Please create one by running the `setup.py` file.")
+
+CARRIERS = {
+    "att": "@mms.att.net",
+    "tmobile": "@tmomail.net",
+    "verizon": "@vtext.com",
+    "sprint": "@messaging.sprintpcs.com"
+}
+
+config = dotenv_values(".env")
+phoneNumber = config["phoneNumber"]
+carrier = CARRIERS[config["carrier"]]
+openai_apikey = config["openai_apikey"]
+gmail_password = config["gmail_password"]
+email = config["email"]
 
 logger = AppLogger()
-ms = MessageService()
+ms = MessageService(email, gmail_password, carrier)
 logger.GMAIL_LOG_EVENT("NEW RUN STARTED", "info")
 
 # Set up OAuth2 credentials flow
@@ -39,9 +57,9 @@ def handle_new_message(message):
     # Only respond to emails from the known sender
     if sender == phoneNumber + carrier:
         message_content = extract_message_content(full_message)
-
+        logger.GMAIL_LOG_EVENT(f"Message content: {message_content}", "info")
         # Process the new message (e.g., print message content)
-        response = getOutput(message_content)
+        response = getOutput(message_content, openai_apikey)
         ms.send_message(phoneNumber, response)
     mark_message_as_read(message_id)
 
@@ -67,6 +85,7 @@ def extract_sender(message):
 # TODO: This code assumes all carriers send the data in the same way. This must be tested with
 # each carrier. This method is working with AT&T but has not been tested with other carriers.
 def extract_message_content(message):
+    logger.GMAIL_LOG_EVENT("Extracting message content", "info")
     payload = message.get('payload')
     parts = payload.get('parts')
     data = None
@@ -106,7 +125,7 @@ def poll_new_messages():
 
             # Process the new message event
             if unread_messages:
-                logger.GMAIL_LOG_EVENT("New message recieved, extracting content", "info")
+                logger.GMAIL_LOG_EVENT("New message recieved", "info")
                 # Handle new message(s) as needed
                 handle_new_message(unread_messages[0])
         except Exception as e:

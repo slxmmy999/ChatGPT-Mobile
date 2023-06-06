@@ -1,11 +1,7 @@
 import openai
-from setup import openai_apikey
 from log import AppLogger
 
 logger = AppLogger()
-
-# Set this in `setup.py`
-openai.api_key = openai_apikey
 
 # Array of message history passed to model each time a response is requested
 messages = [
@@ -16,7 +12,8 @@ messages = [
 # good middle ground between price and performance
 model = "gpt-3.5-turbo"
 
-def getOutput(input):
+def getOutput(input, key):
+    openai.api_key = key
     try:
         messages.append({"role": "user", "content": input})
 
