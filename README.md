@@ -43,7 +43,6 @@ It is recommended that you create a seperate Google account for this as it can c
     - Select Mail and Other (Custom Name).
     - Click on Generate.
     - Copy the generated application-specific password.
-    - Define the gmail_password variable in setup.py with the copied password.
     - (More details about application specific passwords can be found [here](https://support.google.com/mail/answer/185833?hl=en).)
 
 5. **Run `setup.py` to create the `.env` file containing config data:**
