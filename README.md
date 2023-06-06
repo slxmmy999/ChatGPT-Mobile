@@ -1,4 +1,4 @@
-# ChatGPT-Mobile (iPhone compatible)
+# ChatGPT-Mobile (iPhone and Android compatible)
 
 ChatGPT-Mobile is a project that enables users to utilize their phone's built-in MMS messaging application as a client to interact with ChatGPT, an AI language model developed by OpenAI. With this project, users can have conversations with ChatGPT by sending MMS messages from their mobile devices.
 
