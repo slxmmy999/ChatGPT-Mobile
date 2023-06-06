@@ -50,4 +50,13 @@ class AppLogger:
             case "warning": 
                 self.gmailLogger.warning(message)
 
+    # remove lines from log file if it gets too big
+    def trim_log(self):
+        with open(self.logfile, "r") as f:
+            num_lines = len(f.readlines())
+
+        if num_lines > 1000:
+            with open(self.logfile, "w") as f:
+                f.writelines(f.readlines()[num_lines - 1000:])
+
 
