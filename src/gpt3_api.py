@@ -3,9 +3,11 @@ from log import AppLogger
 
 logger = AppLogger()
 
+system_message = {"role": "system", "content": "Please follow these guidelines strictly! You are a helpful assistant. Please make sure your responses are SHORT and CONCISE, mobile-friendly, and only in plain text. You are based on ChatGPT using the gpt-3.5-turbo model."}
+
 # Array of message history passed to model each time a response is requested
 messages = [
-    {"role": "system", "content": "You are a helpful assistant. Users are interacting with you using their mobile messaging app. Please make sure your responses are short and concise, mobile-friendly, and only in plain text. You are based on ChatGPT using the gpt-3.5-turbo model."}
+    system_message
 ]
 
 # Model can be changed based on price and performance preferences, though 3.5-turbo is a very
@@ -30,11 +32,12 @@ def getOutput(input, key):
         # probably be made with further research
         if len(messages) > 10:
             logger.GPT_LOG_EVENT("Messages are over 10. Removing the first message.", "info")
-            messages.pop(1)
+            messages.pop(0)
             # bot forgets to send short messages so it must be reminded. This is important 
             # because the API will take up to 30 seconds to respond if the message is too long
-
-        print(messages)
+            if not system_message in messages:
+                messages.append(system_message)
+                logger.GPT_LOG_EVENT("System message added to messages again", "info")
 
         bot_response = response.choices[0]["message"]["content"]
         messages.append({"role": "assistant", "content": bot_response})

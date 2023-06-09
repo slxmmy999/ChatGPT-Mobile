@@ -60,7 +60,12 @@ def handle_new_message(message):
         logger.GMAIL_LOG_EVENT(f"Message content: {message_content}", "info")
         # Process the new message (e.g., print message content)
         response = getOutput(message_content, openai_apikey)
-        ms.send_message(phoneNumber, response)
+        sent = ms.send_message(phoneNumber, response)
+        # handle failed message sending
+        while not sent:
+            logger.GMAIL_LOG_EVENT("Reinitializing SMTP server", "warning")
+            ms.reload()
+            sent = ms.send_message(phoneNumber, response)
     mark_message_as_read(message_id)
 
 # Mark message as read so they are not responded to more than once
@@ -127,7 +132,7 @@ def poll_new_messages():
             if unread_messages:
                 logger.GMAIL_LOG_EVENT("New message recieved", "info")
                 # Handle new message(s) as needed
-                handle_new_message(unread_messages[0])
+                status = handle_new_message(unread_messages[0])
         except Exception as e:
             # Handling the exception
             logger.GMAIL_LOG_EVENT(f"Exception: {e}", "error")
